@@ -3,10 +3,16 @@ Django settings for maildashboard project.
 MongoDB Atlas via pymongo — cloud database.
 """
 from pathlib import Path
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parent.parent / '.env')
+except ImportError:
+    pass
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-maildashboard-secret-key-2024-xyz'
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-maildashboard-secret-key-2024-xyz')
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -49,9 +55,9 @@ DATABASES = {
     }
 }
 
-# MongoDB Atlas connection settings
-MONGODB_URI = 'mongodb+srv://yt-backend:vaibhav@cluster0.41hrxqq.mongodb.net/'
-MONGODB_DB_NAME = 'maildashboard'
+# MongoDB Atlas connection settings (loaded from .env)
+MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb+srv://yt-backend:vaibhav@cluster0.41hrxqq.mongodb.net/')
+MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME', 'maildashboard')
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
